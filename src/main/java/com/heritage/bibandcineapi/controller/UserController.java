@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("api/users")
+    @GetMapping("/")
     public ResponseEntity<Page<User>> getAllUsers(Pageable pageable) {
         return new ResponseEntity<Page<User>>(userService.getAllUsers(pageable), HttpStatus.OK);
     }
@@ -29,12 +30,12 @@ public class UserController {
     /**
      * Registration of a user
      */
-    @PostMapping("api/users/register")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid User user) {
         return new ResponseEntity<User>(userService.register(user), HttpStatus.OK);
     }
 
-    @PutMapping("api/users/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "userId") Long userId,
                                            @RequestBody @Valid User userRequest) {
         return new ResponseEntity<User>(userService.update(userId, userRequest), HttpStatus.OK);

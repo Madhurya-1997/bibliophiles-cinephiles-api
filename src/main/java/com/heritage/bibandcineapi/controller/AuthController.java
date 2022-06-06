@@ -2,6 +2,7 @@ package com.heritage.bibandcineapi.controller;
 
 import com.heritage.bibandcineapi.models.AuthRequest;
 import com.heritage.bibandcineapi.models.AuthResponse;
+import com.heritage.bibandcineapi.repository.UserRepository;
 import com.heritage.bibandcineapi.security.JwtUtil;
 import com.heritage.bibandcineapi.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class AuthController {
     private MyUserDetailsService myUserDetailsService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
 
@@ -39,7 +43,9 @@ public class AuthController {
         }
         UserDetails userDetails = myUserDetailsService.loadUserByUsername(req.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthResponse(jwt));
+        return ResponseEntity.ok(new AuthResponse( jwt,
+                userRepository.findUserByUsername(userDetails.getUsername()).get().getUsername(),
+                userRepository.findUserByUsername(userDetails.getUsername()).get().getEmail()));
     }
 
 }
