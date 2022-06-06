@@ -1,0 +1,32 @@
+[
+  {
+    "username":"peter",
+    "password":"peter123",
+    "phoneNumber": "7657657689",
+    "email": "peter@hotmail.com"
+  },
+  {
+    "username":"brother",
+    "password":"bro123",
+    "phoneNumber": "9879879878",
+    "email": "brother@gmail.com"
+  },
+  {
+    "username":"nilofar",
+    "password":"nilo123",
+    "phoneNumber": "7683920192",
+    "email": "nilo@yahoo.com"
+  },
+  {
+    "username":"madhurya",
+    "password":"mon123",
+    "phoneNumber": "7575900310",
+    "email": "mb97@gmail.com"
+  },
+  {
+    "username":"dingle",
+    "password":"dingle123",
+    "phoneNumber": "9198682725",
+    "email": "dingle@hotmail.com"
+  }
+]

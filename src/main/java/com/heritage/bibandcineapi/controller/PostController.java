@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.module.ResolutionException;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("api/posts")
 public class PostController {
 
     @Autowired
@@ -21,19 +21,24 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
-    @GetMapping("/{userId}/posts")
+    @GetMapping("")
+    public Page<Post> getAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
+    }
+
+    @GetMapping("/{userId}")
     public Page<Post> getAllPostsByUserId(@PathVariable(value = "userId")Long userId
             , Pageable pageable) {
         return postRepository.findByUserId(userId, pageable);
     }
-    @PostMapping("/{userId}/posts")
+    @PostMapping("/{userId}")
     public Post createPost(@PathVariable(value="userId") Long userId, @RequestBody Post post) {
         return userRepository.findById(userId).map(user -> {
              post.setUser(user);
              return postRepository.save(post);
         }).orElseThrow(() -> new ResolutionException("User with ID: " + userId + " not found !!" ));
     }
-    @PutMapping("/{userId}/posts/{postId}")
+    @PutMapping("/{userId}/{postId}")
     public Post updatePost(@PathVariable(value="userId") Long userId,
                            @PathVariable(value="postId") Long postId,
                            @RequestBody Post postRequest) {

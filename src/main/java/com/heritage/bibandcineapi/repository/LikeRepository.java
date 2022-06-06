@@ -8,15 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
-    @Query("SELECT count(*) from Like l WHERE l.postId=:postId and l.isLiked=:isLiked")
-    Integer findAllLikes(@Param("postId") Long postId, @Param("isLiked") Boolean isLiked);
+    @Query(value = "SELECT * from Like l WHERE l.postId=:postId and l.isLiked=true", nativeQuery = true)
+    List<Like> findAllLikes(@Param("postId") Long postId);
 
-    Optional<Like> findTopByPostAndUserOrderByLikeIdDesc(Post post, User currentUser);
+    Optional<Like> findTopByPostAndUserOrderByIdDesc(Post post, User currentUser);
 }
 
 

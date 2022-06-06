@@ -10,6 +10,7 @@ import com.heritage.bibandcineapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,16 +26,16 @@ public class LikeServiceImpl implements  LikeService{
     private LikeRepository likeRepository;
 
     @Override
-    public LikeResponse addLike(Long postId, Long userId, Like likeRequest) {
-        return setLikeDetails(postId, userId, likeRequest);
+    public LikeResponse addLike(Long userId, Long postId, Like likeRequest) {
+        return setLikeDetails(userId, postId, likeRequest);
     }
 
     @Override
-    public LikeResponse deleteLike(Long postId, Long userId, Like likeRequest) {
-        return setLikeDetails(postId, userId, likeRequest);
+    public LikeResponse deleteLike(Long userId, Long postId, Like likeRequest) {
+        return setLikeDetails(userId, postId, likeRequest);
     }
 
-    private LikeResponse setLikeDetails(Long postId, Long userId, Like likeRequest) {
+    private LikeResponse setLikeDetails(Long userId, Long postId, Like likeRequest) {
         Optional<User> user = userRepository.findById(userId);
         Optional<Post> post = postRepository.findById(postId);
 
@@ -44,8 +45,8 @@ public class LikeServiceImpl implements  LikeService{
 
         Like newLiked = likeRepository.save(likeRequest);
 
-        Integer likeCounts = likeRepository.findAllLikes(postId, likeRequest.getIsLiked());
+//        Integer likeCounts = likeRepository.findAllLikes(postId).size();
 
-        return new LikeResponse(newLiked, likeCounts);
+        return new LikeResponse(newLiked, 1);
     }
 }
