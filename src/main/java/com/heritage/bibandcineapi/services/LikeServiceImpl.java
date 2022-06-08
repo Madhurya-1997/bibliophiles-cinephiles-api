@@ -46,9 +46,9 @@ public class LikeServiceImpl implements  LikeService{
 
         Like newLiked = likeRepository.save(likeRequest);
 
-//        Integer likeCounts = likeRepository.findAllLikes(postId).size();
+        Long likeCounts = likeRepository.findAllLikes(postId);
 
-        return new LikeResponse(newLiked, 1);
+        return new LikeResponse(newLiked, likeCounts);
     }
 
     @Override

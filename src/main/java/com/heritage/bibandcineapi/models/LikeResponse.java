@@ -3,13 +3,13 @@ package com.heritage.bibandcineapi.models;
 public class LikeResponse {
 
     private Like like;
-    private Integer likeCounts;
+    private Long likeCounts;
 
-    public LikeResponse(Like like, Integer likeCounts) {
+    public LikeResponse(Like like, Long likeCounts) {
         this.likeCounts = likeCounts;
         this.like = like;
     }
-    public Integer getLikeCounts() {
+    public Long getLikeCounts() {
         return likeCounts;
     }
 
