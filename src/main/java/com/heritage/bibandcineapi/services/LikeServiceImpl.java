@@ -35,6 +35,7 @@ public class LikeServiceImpl implements  LikeService{
         return setLikeDetails(userId, postId, likeRequest);
     }
 
+
     private LikeResponse setLikeDetails(Long userId, Long postId, Like likeRequest) {
         Optional<User> user = userRepository.findById(userId);
         Optional<Post> post = postRepository.findById(postId);
@@ -49,4 +50,10 @@ public class LikeServiceImpl implements  LikeService{
 
         return new LikeResponse(newLiked, 1);
     }
+
+    @Override
+    public Long findAllLikesFromPost(Long postId) {
+        return likeRepository.findAllLikes(postId);
+    }
+
 }

@@ -16,6 +16,13 @@ public class LikeController {
     private LikeService likeService;
 
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> findAllLikes(@PathVariable("postId") Long postId) {
+        return new ResponseEntity<Long>(likeService.findAllLikesFromPost(postId), HttpStatus.OK);
+    }
+
+
+
     @PostMapping("/{userId}/{postId}")
     public ResponseEntity<?> addLikeCount(@PathVariable("userId")Long userId,
                                           @PathVariable("postId") Long postId,

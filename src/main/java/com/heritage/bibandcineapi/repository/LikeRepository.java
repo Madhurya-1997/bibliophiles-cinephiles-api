@@ -14,8 +14,8 @@ import java.util.Optional;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
-    @Query(value = "SELECT * from Like l WHERE l.postId=:postId and l.isLiked=true", nativeQuery = true)
-    List<Like> findAllLikes(@Param("postId") Long postId);
+    @Query(value = "SELECT COUNT(l) FROM Like l WHERE l.post.id=:postId")
+    Long findAllLikes(@Param("postId") Long postId);
 
     Optional<Like> findTopByPostAndUserOrderByIdDesc(Post post, User currentUser);
 }
