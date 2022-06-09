@@ -33,10 +33,9 @@ public class LikeController {
     }
     @DeleteMapping("/{userId}/{postId}")
     public ResponseEntity<?> deleteLikeCount(@PathVariable("userId")Long userId,
-                                          @PathVariable("postId") Long postId,
-                                          @RequestBody Like likeRequest) {
+                                          @PathVariable("postId") Long postId) {
 
-        return new ResponseEntity<LikeResponse>(likeService.deleteLike(userId, postId, likeRequest),
+        return new ResponseEntity<Long>(likeService.deleteLike(userId, postId),
                 HttpStatus.OK) ;
     }
 

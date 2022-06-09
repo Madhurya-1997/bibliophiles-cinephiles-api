@@ -27,16 +27,6 @@ public class LikeServiceImpl implements  LikeService{
 
     @Override
     public LikeResponse addLike(Long userId, Long postId, Like likeRequest) {
-        return setLikeDetails(userId, postId, likeRequest);
-    }
-
-    @Override
-    public LikeResponse deleteLike(Long userId, Long postId, Like likeRequest) {
-        return setLikeDetails(userId, postId, likeRequest);
-    }
-
-
-    private LikeResponse setLikeDetails(Long userId, Long postId, Like likeRequest) {
         Optional<User> user = userRepository.findById(userId);
         Optional<Post> post = postRepository.findById(postId);
 
@@ -45,10 +35,19 @@ public class LikeServiceImpl implements  LikeService{
         likeRequest.setIsLiked(likeRequest.getIsLiked());
 
         Like newLiked = likeRepository.save(likeRequest);
-
         Long likeCounts = likeRepository.findAllLikes(postId);
 
         return new LikeResponse(newLiked, likeCounts);
+    }
+
+    @Override
+    public Long deleteLike(Long userId, Long postId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Post> post = postRepository.findById(postId);
+
+        likeRepository.deleteByUserAndPost(user.get(), post.get());
+        Long updatedLikes = likeRepository.findAllLikes(postId);
+        return updatedLikes;
     }
 
     @Override
