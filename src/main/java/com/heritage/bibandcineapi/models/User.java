@@ -35,6 +35,10 @@ public class User extends AuditModel{
 
     private String role;
 
+    @OneToOne(mappedBy = "user")
+    private Feedback feedback;
+
+
     public User(Long id, String username, String password, String role) {
         this.id = id;
         this.username = username;
@@ -88,5 +92,14 @@ public class User extends AuditModel{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+
+    public Feedback getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
     }
 }
