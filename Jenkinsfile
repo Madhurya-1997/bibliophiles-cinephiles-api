@@ -10,10 +10,10 @@ pipeline {
 
             }
         }
-        stage ('Deployment stage') {
+        stage ('Running stage') {
             steps {
                 withMaven(maven: 'MAVEN_HOME') {
-                    sh 'mvn deploy'
+                    sh 'mvn spring-boot:run -DskipTests'
                 }
 
             }
