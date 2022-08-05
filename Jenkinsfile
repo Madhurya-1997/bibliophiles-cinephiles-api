@@ -13,7 +13,7 @@ pipeline {
         stage ('Running server stage') {
             steps {
                 withMaven(maven: 'MAVEN_HOME') {
-                    sh 'mvn spring-boot:run -DskipTests'
+                    bat 'mvn spring-boot:run -DskipTests'
                 }
 
             }
