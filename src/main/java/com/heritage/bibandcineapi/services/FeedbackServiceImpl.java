@@ -23,10 +23,12 @@ public class FeedbackServiceImpl implements FeedbackService{
     private UserRepository userRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @Override
     public Feedback addFeedback(Long userId, Long postId, FeedbackRequest feedbackRequest) {
-        Optional<User> optionalUser = userRepository.findByEmail(feedbackRequest.getUserEmail());
+        Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
             throw new ResourceNotFoundException("User not found");
@@ -38,7 +40,12 @@ public class FeedbackServiceImpl implements FeedbackService{
         Post post = postRepository.findById(postId).get();
         feedback.setPost(post);
 
-        return feedbackRepository.save(feedback);
+        Feedback postedFeedback = feedbackRepository.save(feedback);
+        emailService.sendSimpleMessage(optionalUser.get().getEmail(),
+                "You got a feedback from " + optionalUser.get().getUsername(),
+                postedFeedback.getFeedback());
+
+        return postedFeedback;
     }
 
     @Override

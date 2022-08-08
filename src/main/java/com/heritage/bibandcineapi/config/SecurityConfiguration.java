@@ -1,5 +1,6 @@
-package com.heritage.bibandcineapi.security;
+package com.heritage.bibandcineapi.config;
 
+import com.heritage.bibandcineapi.security.JwtFilter;
 import com.heritage.bibandcineapi.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -43,7 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/", "/api/users/register").permitAll()
+                .antMatchers("/authenticate","/v2/api-docs","/configuration/ui",
+                        "/swagger-resources/**","/configuration/security","/swagger-ui.html","/webjars/**","/swagger", "/", "/api/users/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -66,5 +69,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         return source;
     }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/swagger-ui", "/v2/api-docs","/configuration/ui",
+                "/swagger-resources/**","/configuration/security","/swagger-ui.html","/webjars/**","/swagger");
+    }
+
 
 }
