@@ -4,6 +4,10 @@ import com.heritage.bibandcineapi.exception.ResourceNotFoundException;
 import com.heritage.bibandcineapi.models.User;
 import com.heritage.bibandcineapi.repository.UserRepository;
 import com.heritage.bibandcineapi.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,14 +31,30 @@ public class UserController {
         return new ResponseEntity<Page<User>>(userService.getAllUsers(pageable), HttpStatus.OK);
     }
 
-    /**
-     * Registration of a user
-     */
+    @Operation(summary = "Create new account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "User successfully created an account",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "Resource not available",
+                    content = @Content)
+    })
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid User user) {
         return new ResponseEntity<User>(userService.register(user), HttpStatus.OK);
     }
 
+
+    @Operation(summary = "Get user details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "User details fetched successfully",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "Resource not available",
+                    content = @Content)
+    })
     @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "userId") Long userId,
                                            @RequestBody @Valid User userRequest) {

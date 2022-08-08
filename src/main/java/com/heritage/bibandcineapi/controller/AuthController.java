@@ -5,6 +5,10 @@ import com.heritage.bibandcineapi.models.AuthResponse;
 import com.heritage.bibandcineapi.repository.UserRepository;
 import com.heritage.bibandcineapi.security.JwtUtil;
 import com.heritage.bibandcineapi.services.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +37,18 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
 
+    @Operation(summary = "Login user to access all APIs")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Login successful",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "401",
+                    description = "Login unsuccessful. You are unauthorized to access our APIs.",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "Resource not available",
+                    content = @Content)
+    })
     @GetMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest req) throws Exception {
         try {
