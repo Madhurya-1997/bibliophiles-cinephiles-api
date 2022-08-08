@@ -45,8 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate","/v2/api-docs","/configuration/ui",
-                        "/swagger-resources/**","/configuration/security","/swagger-ui.html","/webjars/**","/swagger", "/", "/api/users/register").permitAll()
+                .antMatchers("/authenticate",
+                        "/swagger-ui/**",
+                        "/",
+                        "/api/users/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -71,8 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/swagger-ui", "/v2/api-docs","/configuration/ui",
-                "/swagger-resources/**","/configuration/security","/swagger-ui.html","/webjars/**","/swagger");
+        web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 
 
