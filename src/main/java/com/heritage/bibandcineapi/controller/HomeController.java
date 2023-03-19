@@ -8,17 +8,23 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
+@CrossOrigin
 @RestController
+@Slf4j
 public class HomeController {
 
     @Operation(summary = "Display home page")
@@ -49,7 +55,8 @@ public class HomeController {
                     content = @Content)
     })
     @GetMapping("/api")
-    public String api() {
+    public String api(Principal principal) {
+        System.out.println(principal);
         return ("<h1>You have access to our APIs !!</h1>");
     }
 

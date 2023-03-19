@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.module.ResolutionException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/posts")
 public class PostController {
 

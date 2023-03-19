@@ -1,5 +1,3 @@
-FROM maven:3.8.2-jdk-11 as build
-WORKDIR /bib-and-cine-api
-COPY . .
-RUN mvn clean install
-CMD mvn spring-boot:run
+FROM openjdk:17 as build
+ADD ./target/bib-and-cine-api-0.0.1-SNAPSHOT.jar bib-and-cine-api-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "bib-and-cine-api-0.0.1-SNAPSHOT.jar"]
