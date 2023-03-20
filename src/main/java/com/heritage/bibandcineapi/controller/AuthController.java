@@ -1,5 +1,6 @@
 package com.heritage.bibandcineapi.controller;
 
+import com.heritage.bibandcineapi.exception.ResourceNotFoundException;
 import com.heritage.bibandcineapi.models.AuthRequest;
 import com.heritage.bibandcineapi.models.AuthResponse;
 import com.heritage.bibandcineapi.repository.UserRepository;
@@ -48,19 +49,24 @@ public class AuthController {
                     content = @Content)
     })
     @GetMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest req) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest req) throws ResourceNotFoundException, BadCredentialsException {
         try {
             manager.authenticate(new UsernamePasswordAuthenticationToken(
                     req.getUsername(), req.getPassword()
             ));
         } catch(BadCredentialsException e) {
-            throw new Exception("Incorrect username or password");
+            throw new BadCredentialsException("Incorrect username or password");
         }
         UserDetails userDetails = myUserDetailsService.loadUserByUsername(req.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
+        if (userDetails.getUsername().isEmpty()) {
+        	throw new ResourceNotFoundException("User not found");
+        }
+        
         return ResponseEntity.ok(new AuthResponse( jwt,
                 userRepository.findUserByUsername(userDetails.getUsername()).get().getUsername(),
                 userRepository.findUserByUsername(userDetails.getUsername()).get().getEmail()));
+        
     }
 
 }

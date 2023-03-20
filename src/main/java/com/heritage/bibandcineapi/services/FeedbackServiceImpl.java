@@ -37,7 +37,12 @@ public class FeedbackServiceImpl implements FeedbackService{
         Feedback feedback = new Feedback();
         feedback.setFeedback(feedbackRequest.getFeedback());
         feedback.setUser(optionalUser.get());
-        Post post = postRepository.findById(postId).get();
+        Optional<Post> postData = postRepository.findById(postId);
+        if (postData.isEmpty()) {
+        	throw new ResourceNotFoundException("No post found with post id: " + postId); 
+        }
+        Post post = postData.get(); 
+        
         feedback.setPost(post);
 
         Feedback postedFeedback = feedbackRepository.save(feedback);

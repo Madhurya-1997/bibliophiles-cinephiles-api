@@ -1,5 +1,6 @@
 package com.heritage.bibandcineapi.services;
 
+import com.heritage.bibandcineapi.exception.ResourceNotFoundException;
 import com.heritage.bibandcineapi.models.Like;
 import com.heritage.bibandcineapi.models.LikeResponse;
 import com.heritage.bibandcineapi.models.Post;
@@ -30,6 +31,12 @@ public class LikeServiceImpl implements  LikeService{
         Optional<User> user = userRepository.findById(userId);
         Optional<Post> post = postRepository.findById(postId);
 
+        if (user.isEmpty()) {
+        	throw new ResourceNotFoundException("User with id: " + userId + " not found");
+        }
+        if (post.isEmpty()) {
+        	throw new ResourceNotFoundException("Post with id: " + postId + " not found");
+        }
         likeRequest.setUser(user.get());
         likeRequest.setPost(post.get());
         likeRequest.setIsLiked(likeRequest.getIsLiked());
@@ -45,6 +52,12 @@ public class LikeServiceImpl implements  LikeService{
         Optional<User> user = userRepository.findById(userId);
         Optional<Post> post = postRepository.findById(postId);
 
+        if (user.isEmpty()) {
+        	throw new ResourceNotFoundException("User with id: " + userId + " not found");
+        }
+        if (post.isEmpty()) {
+        	throw new ResourceNotFoundException("Post with id: " + postId + " not found");
+        }
         likeRepository.deleteByUserAndPost(user.get(), post.get());
         Long updatedLikes = likeRepository.findAllLikes(postId);
         return updatedLikes;
