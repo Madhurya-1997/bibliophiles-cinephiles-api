@@ -17,7 +17,9 @@ services:
     image: 883630/bibandcineapi:latest
     depends_on:
       - mysqldb
-    build: .
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile
     restart: on-failure
     ports:
       - 8000:8000
@@ -30,6 +32,10 @@ services:
         - .m2:/root/.m2
     networks:
       - cinenetwork
+
+volumes:
+  db:
+
 
 networks: 
   cinenetwork:
